@@ -15,7 +15,6 @@
     .gray{color:gray;}
 </style>
 
-{if ($eshanghu['integral_proportion'] && $eshanghu['integral_type'] && $eshanghu['mchid'] && $eshanghu['key'])}
 <div style="padding:20px;border:1px solid #ccc;border-top:0;line-height: 36px;">
     <p><strong>请输入要充值的人民币金额</strong></p>
     <p><input type="text" name="money" id="money" value="" size="10" class="" />元</p>
@@ -23,11 +22,6 @@
     <p id="button"><button type="button" id="eshanghu_submit" class="vm" >点击微信扫码支付</button></p>
     <div id="qrcode"> </div>
 </div>
-{else}
-<div style="padding:20px;border:1px solid #ccc;border-top:0;line-height: 36px;">
-    <p><strong>支付功能尚未配置</strong></p>
-</div>
-{/if}
 
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script>
