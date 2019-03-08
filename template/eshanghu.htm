@@ -1,7 +1,7 @@
 <style>
     #qrcode p{color:#0074c9;}
     #qrcode img{border:1px solid #ccc;padding:2px;width: 160px;}
-    #payjs_submit{
+    #eshanghu_submit{
         border: 0 !important;
         border-radius: 2px !important;
         box-shadow: none;
@@ -15,24 +15,24 @@
     .gray{color:gray;}
 </style>
 
-<!--{if ($payjs['integral_proportion'] && $payjs['integral_type'] && $payjs['mchid'] && $payjs['key'])}-->
+{if ($eshanghu['integral_proportion'] && $eshanghu['integral_type'] && $eshanghu['mchid'] && $eshanghu['key'])}
 <div style="padding:20px;border:1px solid #ccc;border-top:0;line-height: 36px;">
     <p><strong>请输入要充值的人民币金额</strong></p>
     <p><input type="text" name="money" id="money" value="" size="10" class="" />元</p>
-    <p class="gray">1元人民币可以兑换 {$payjs['integral_proportion']}  {$_G['setting']['extcredits'][$payjs['integral_type']]['title']}</p>
-    <p id="button"><button type="button" id="payjs_submit" class="vm" >点击微信扫码支付</button></p>
+    <p class="gray">1元人民币可以兑换 {$eshanghu['integral_proportion']}  {$_G['setting']['extcredits'][$eshanghu['integral_type']]['title']}</p>
+    <p id="button"><button type="button" id="eshanghu_submit" class="vm" >点击微信扫码支付</button></p>
     <div id="qrcode"> </div>
 </div>
-<!--{else}-->
+{else}
 <div style="padding:20px;border:1px solid #ccc;border-top:0;line-height: 36px;">
     <p><strong>支付功能尚未配置</strong></p>
 </div>
-<!--{/if}-->
+{/if}
 
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
-        $("#payjs_submit").click(function(){
+        $("#eshanghu_submit").click(function(){
             money = $('#money').val();
             if (isNaN(money)) { alert('请输入数字'); exit; }
             if (money <= 0) { alert('最低1元'); return; }
@@ -50,12 +50,12 @@
                 '    <circle cx="50" cy="50" ng-attr-r="{{config.radiusOut}}" fill="none" ng-attr-stroke="{{config.c1}}" ng-attr-stroke-width="{{config.width}}" r="30" stroke="#ff7c81" stroke-width="5"></circle>\n' +
                 '    <circle cx="50" cy="50" ng-attr-r="{{config.radiusIn}}" ng-attr-fill="{{config.c3}}" ng-attr-stroke="{{config.c2}}" ng-attr-stroke-width="{{config.width}}" r="10" fill="#ffffcb" stroke="#fac090" stroke-width="5"></circle>\n' +
                 '  </svg>');
-            $.post("plugin.php?id=payjs",{ac:"pay", money:money}, function (data) {
+            $.post("plugin.php?id=eshanghu",{ac:"pay", money:money}, function (data) {
                 console.log(data);
                 var obj = eval('(' + data + ')');
                 var orderid = obj.out_trade_no;
                 checkOrder(orderid);
-                $("#qrcode").html("<p>支付完成自动显示</p><img src='"+obj.qrcode+"'>");
+                $("#qrcode").html("<p>支付完成自动显示</p><img src='http://qr.liantu.com/api.php?text="+obj.code_url+"'>");
             });
         });
     });
@@ -73,7 +73,7 @@
     }
 
     function check(id) {
-        $.post("plugin.php",{id:'payjs', ac:"check", orderid:id}, function (data) {
+        $.post("plugin.php",{id:'eshanghu', ac:"check", orderid:id}, function (data) {
             if (data == 'paid') {
                 $("#qrcode").html('<span style="font-size:14px;font-weight:200;color:#0073c8;margin-top:20px;">恭喜，充值成功!</span>');
                 clearInterval(timer);
